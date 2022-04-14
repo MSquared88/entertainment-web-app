@@ -11,11 +11,10 @@ model User {
   id    String @id @default(cuid())
   email String @unique
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  password  Password?
+  bookmarks Media[]
 }
 
 model Password {
@@ -25,14 +24,25 @@ model Password {
   userId String @unique
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model Media {
+  id         String  @id @default(cuid())
+  title      String
+  year       String
+  rating     String
+  category   String
+  isTrending Boolean
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  smallThumbnail  String
+  mediumThumbnail String
+  largeThumbnail  String
+  users           User[]
 }
+
+// model UserBookmarks {
+//   user       User     @relation(fields: [userId], references: [id])
+//   userId   String
+//   bookmark Media @relation(fields: [bookMarkId], references: [id])
+//   bookMarkId String  @id
+//   assignedAt DateTime @default(now())
+//   assignedBy String
+// }

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { getMedia } from "./data";
 
 const prisma = new PrismaClient();
 
@@ -11,38 +12,35 @@ async function seed() {
     // no worries if it doesn't exist yet
   });
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  // const hashedPassword = await bcrypt.hash("racheliscool", 10);
 
-  const user = await prisma.user.create({
-    data: {
-      email,
-      password: {
-        create: {
-          hash: hashedPassword,
-        },
-      },
-    },
-  });
-
-  await prisma.note.create({
-    data: {
-      title: "My first note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
-
-  await prisma.note.create({
-    data: {
-      title: "My second note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
-
+  // const user = await prisma.user.create({
+  //   data: {
+  //     email,
+  //     password: {
+  //       create: {
+  //         hash: hashedPassword,
+  //       },
+  //     },
+  //   },
+  // });
+  await Promise.all(
+    getMedia().map((media) => {
+      const data = {
+        title: media.title,
+        year: media.year.toString(),
+        category: media.category,
+        rating: media.rating,
+        isTrending: media.isTrending,
+        smallThumbnail: media.thumbnail.regular.small,
+        mediumThumbnail: media.thumbnail.regular.medium,
+        largeThumbnail: media.thumbnail.regular.large,
+      };
+      return prisma.media.create({ data });
+    })
+  );
   console.log(`Database has been seeded. 🌱`);
 }
-
 seed()
   .catch((e) => {
     console.error(e);
@@ -51,3 +49,4 @@ seed()
   .finally(async () => {
     await prisma.$disconnect();
   });
+  
