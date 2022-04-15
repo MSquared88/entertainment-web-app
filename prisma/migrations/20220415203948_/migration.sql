@@ -27,11 +27,13 @@ CREATE TABLE "Media" (
 );
 
 -- CreateTable
-CREATE TABLE "_MediaToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    FOREIGN KEY ("A") REFERENCES "Media" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY ("B") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE "UserBookmarks" (
+    "userId" TEXT NOT NULL,
+    "mediaId" TEXT NOT NULL,
+
+    PRIMARY KEY ("userId", "mediaId"),
+    CONSTRAINT "UserBookmarks_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "UserBookmarks_mediaId_fkey" FOREIGN KEY ("mediaId") REFERENCES "Media" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -39,9 +41,3 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Password_userId_key" ON "Password"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_MediaToUser_AB_unique" ON "_MediaToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_MediaToUser_B_index" ON "_MediaToUser"("B");

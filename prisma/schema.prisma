@@ -11,10 +11,10 @@ model User {
   id    String @id @default(cuid())
   email String @unique
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
   password  Password?
-  bookmarks Media[]
+  bookMarks UserBookmarks[]
 }
 
 model Password {
@@ -35,14 +35,14 @@ model Media {
   smallThumbnail  String
   mediumThumbnail String
   largeThumbnail  String
-  users           User[]
+  userIds         UserBookmarks[]
 }
 
-// model UserBookmarks {
-//   user       User     @relation(fields: [userId], references: [id])
-//   userId   String
-//   bookmark Media @relation(fields: [bookMarkId], references: [id])
-//   bookMarkId String  @id
-//   assignedAt DateTime @default(now())
-//   assignedBy String
-// }
+model UserBookmarks {
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  media   Media  @relation(fields: [mediaId], references: [id])
+  mediaId String
+
+  @@id([userId, mediaId])
+}
