@@ -24,7 +24,7 @@ async function seed() {
       },
     },
   });
-
+  await prisma.media.deleteMany({});
   await Promise.all(
     getMedia().map((media) => {
       const data = {
