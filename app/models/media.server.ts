@@ -13,6 +13,20 @@ export async function getUserBookmarks(userId: User["id"]) {
     },
   });
 }
-export async function getMediaListItems(userId: User["id"]) {
+export async function getMediaListItems() {
   return prisma.media.findMany();
+}
+export async function getMovieListItems() {
+  return prisma.media.findMany({
+    where: {
+      category: "Movie",
+    },
+  });
+}
+export async function getTVListItems() {
+  return prisma.media.findMany({
+    where: {
+      category: "TV Series",
+    },
+  });
 }
