@@ -3,16 +3,16 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 
 //db
-import { getMovieListItems } from "~/models/media.server";
+import { getMediaListItems } from "~/models/media.server";
 
 //components
 import ListOfMediaDisplay from "~/components/listOfMedia";
 type LoaderData = {
-  mediaListItems: Awaited<ReturnType<typeof getMovieListItems>>;
+  mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const mediaListItems = await getMovieListItems();
+  const mediaListItems = await getMediaListItems();
   return json<LoaderData>({ mediaListItems });
 };
 
@@ -31,7 +31,7 @@ export default function MediaPage() {
             id="search-input"
             name="search"
             placeholder={`search for something`}
-            className="bg-blue-dark text-white placeholder:focus:text-blue-dark"
+            className="text- mb-4 h-8 w-96 border-b bg-blue-dark text-white placeholder:focus:text-blue-dark"
           />
         </Form>
       </div>
