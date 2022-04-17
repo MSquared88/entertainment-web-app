@@ -2,6 +2,9 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   theme: {
     extend: {
+      spacing: {
+        nav: "96%",
+      },
       colors: {
         red: "#FC4747",
         blue: {
