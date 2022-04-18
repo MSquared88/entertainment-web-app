@@ -82,6 +82,8 @@ export default function Join() {
   const actionData = useActionData() as ActionData;
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+  const [isEmailFocus, setIsEmailFocus] = React.useState<boolean>(false);
+  const [isPasswordFocus, setIsPasswordFocus] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (actionData?.errors?.email) {
@@ -92,31 +94,34 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
-      <div className="mx-auto w-full max-w-md px-8">
+    <div className="flex min-h-full flex-col justify-center bg-blue-dark">
+      <div className="mx-auto w-full max-w-md rounded-2xl bg-blue-semi p-10 text-white">
+        <h1 className="py-4 text-4xl">Register</h1>
+
         <Form method="post" className="space-y-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+            <div
+              className={`mt-1 flex border-b-[1px] border-blue-grayish ${
+                isEmailFocus ? "border-white" : ""
+              } `}
             >
-              Email address
-            </label>
-            <div className="mt-1">
               <input
                 ref={emailRef}
                 id="email"
                 required
-                autoFocus={true}
                 name="email"
                 type="email"
+                autoFocus={true}
+                onFocus={() => setIsEmailFocus(true)}
+                onBlur={() => setIsEmailFocus(false)}
                 autoComplete="email"
+                placeholder="Email address"
                 aria-invalid={actionData?.errors?.email ? true : undefined}
                 aria-describedby="email-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="w-full border-b-gray-500 bg-blue-semi px-2 py-[10px] text-lg outline-none focus:placeholder-blue-semi"
               />
               {actionData?.errors?.email && (
-                <div className="pt-1 text-red-700" id="email-error">
+                <div className="pt-1 text-red" id="email-error">
                   {actionData.errors.email}
                 </div>
               )}
@@ -124,25 +129,26 @@ export default function Join() {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+            <div
+              className={`mt-1 flex border-b-[1px] border-blue-grayish ${
+                isPasswordFocus ? "border-white" : ""
+              } `}
             >
-              Password
-            </label>
-            <div className="mt-1">
               <input
                 id="password"
                 ref={passwordRef}
                 name="password"
                 type="password"
                 autoComplete="new-password"
+                onFocus={() => setIsPasswordFocus(true)}
+                onBlur={() => setIsPasswordFocus(false)}
+                placeholder="Password"
                 aria-invalid={actionData?.errors?.password ? true : undefined}
                 aria-describedby="password-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="w-full border-b-gray-500 bg-blue-semi px-2 py-[10px] text-lg outline-none focus:placeholder-blue-semi"
               />
               {actionData?.errors?.password && (
-                <div className="pt-1 text-red-700" id="password-error">
+                <div className="pt-1 text-red" id="password-error">
                   {actionData.errors.password}
                 </div>
               )}
@@ -152,7 +158,7 @@ export default function Join() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
+            className="w-full rounded bg-red  py-2 px-4 text-white hover:bg-white hover:text-black focus:bg-white focus:text-black"
           >
             Create Account
           </button>
@@ -160,7 +166,7 @@ export default function Join() {
             <div className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
-                className="text-blue-500 underline"
+                className="text-red underline"
                 to={{
                   pathname: "/login",
                   search: searchParams.toString(),
