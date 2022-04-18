@@ -1,119 +1,47 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, NavLink, Outlet, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
-
-import { useUser } from "~/utils";
-import { getMediaListItems } from "~/models/media.server";
-
-type LoaderData = {
-  mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const mediaListItems = await getMediaListItems();
-  return json<LoaderData>({ mediaListItems });
-};
+import BookmarkIcon from "~/components/icons/bookmarkIcon";
+import MoviesIcon from "~/components/icons/moviesIcon";
+import HomeIcon from "~/components/icons/homeIcon";
+import TvSeriesIcon from "~/components/icons/tvSeriesIcon";
+import { Form, NavLink, Outlet } from "@remix-run/react";
 
 export default function MediaPage() {
-  const user = useUser();
-  const [active, setActive] = useState(true);
-
   return (
-    <div className="flex min-h-screen flex-col bg-blue-dark">
-      <div className="fixed flex w-48 items-center justify-center">
-        <nav className=" flex h-screen w-24 items-center justify-center bg-blue-dark text-white">
-          <ul className="m-0 flex h-nav w-full list-none flex-col items-center justify-between gap-8 rounded-2xl bg-blue-semi p-0">
-            <li className="mb-16 mt-10">
-              <img src="../assets/logo.svg" alt="" />
-            </li>
-            <li className=" w-6">
-              <NavLink to="/media/all" className="group">
-                {({ isActive }) => (
-                  <svg
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 0H1C.4 0 0 .4 0 1v7c0 .6.4 1 1 1h7c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1Zm0 11H1c-.6 0-1 .4-1 1v7c0 .6.4 1 1 1h7c.6 0 1-.4 1-1v-7c0-.6-.4-1-1-1ZM19 0h-7c-.6 0-1 .4-1 1v7c0 .6.4 1 1 1h7c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1Zm0 11h-7c-.6 0-1 .4-1 1v7c0 .6.4 1 1 1h7c.6 0 1-.4 1-1v-7c0-.6-.4-1-1-1Z"
-                      fill="#5A698F"
-                      className={`${
-                        isActive ? "fill-white" : "group-hover:fill-red"
-                      }`}
-                    />
-                  </svg>
-                )}
-              </NavLink>
-            </li>
-            <li className="">
-              <NavLink to="/media/movies" className="group">
-                {({ isActive }) => (
-                  <svg
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.956 0H3.044A3.044 3.044 0 0 0 0 3.044v13.912A3.044 3.044 0 0 0 3.044 20h13.912A3.044 3.044 0 0 0 20 16.956V3.044A3.044 3.044 0 0 0 16.956 0ZM4 9H2V7h2v2Zm-2 2h2v2H2v-2Zm16-2h-2V7h2v2Zm-2 2h2v2h-2v-2Zm2-8.26V4h-2V2h1.26a.74.74 0 0 1 .74.74ZM2.74 2H4v2H2V2.74A.74.74 0 0 1 2.74 2ZM2 17.26V16h2v2H2.74a.74.74 0 0 1-.74-.74Zm16 0a.74.74 0 0 1-.74.74H16v-2h2v1.26Z"
-                      fill="#5A698F"
-                      className={`${
-                        isActive ? "fill-white" : "group-hover:fill-red"
-                      }`}
-                    />
-                  </svg>
-                )}
-              </NavLink>
-            </li>
-            <li className="w-6">
-              {" "}
-              <NavLink to="/media/tv-series" className="group">
-                {({ isActive }) => (
-                  <svg
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20 4.481H9.08l2.7-3.278L10.22 0 7 3.909 3.78.029 2.22 1.203l2.7 3.278H0V20h20V4.481Zm-8 13.58H2V6.42h10v11.64Zm5-3.88h-2v-1.94h2v1.94Zm0-3.88h-2V8.36h2v1.94Z"
-                      fill="#5A698F"
-                      className={`${
-                        isActive ? "fill-white" : "group-hover:fill-red"
-                      }`}
-                    />
-                  </svg>
-                )}
-              </NavLink>
-            </li>
-            <li className="w-6">
-              {" "}
-              <NavLink to="/media/bookmarks" className="group">
-                {({ isActive }) => (
-                  <svg
-                    width="17"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15.387 0c.202 0 .396.04.581.119.291.115.522.295.694.542.172.247.258.52.258.82v17.038c0 .3-.086.573-.258.82a1.49 1.49 0 0 1-.694.542 1.49 1.49 0 0 1-.581.106c-.423 0-.79-.141-1.098-.423L8.46 13.959l-5.83 5.605c-.317.29-.682.436-1.097.436-.202 0-.396-.04-.581-.119a1.49 1.49 0 0 1-.694-.542A1.402 1.402 0 0 1 0 18.52V1.481c0-.3.086-.573.258-.82A1.49 1.49 0 0 1 .952.119C1.137.039 1.33 0 1.533 0h13.854Z"
-                      fill="#5A698F"
-                      className={`${
-                        isActive ? "fill-white" : "group-hover:fill-red"
-                      }`}
-                    />
-                  </svg>
-                )}
-              </NavLink>
-            </li>
-            <li className="mt-auto mb-4">
-              <img src="../assets/image-avatar.png" alt="" className="w-12" />
-              <Form action="/logout" method="post">
-                <button type="submit">Logout</button>
-              </Form>
-            </li>
-          </ul>
-        </nav>
-      </div>
+    <div className="flex h-full flex-col items-center justify-center bg-blue-dark  pt-[1rem] lg:flex-row lg:pt-0">
+      <nav className="flex h-[5rem] w-[96%] items-center justify-center bg-blue-dark text-white lg:mt-0 lg:h-[96%] lg:w-full">
+        <ul className="flex h-full w-full list-none items-center justify-between gap-8 rounded-2xl bg-blue-semi lg:h-full lg:w-24 lg:flex-col">
+          <li className="">
+            <img src="../assets/logo.svg" alt="" />
+          </li>
+          <li className=" w-6">
+            <NavLink to="/media/all" className="group">
+              {({ isActive }) => <HomeIcon isActive={isActive} />}
+            </NavLink>
+          </li>
+          <li className="">
+            <NavLink to="/media/movies" className="group">
+              {({ isActive }) => <MoviesIcon isActive={isActive} />}
+            </NavLink>
+          </li>
+          <li className="w-6">
+            {" "}
+            <NavLink to="/media/tv-series" className="group">
+              {({ isActive }) => <TvSeriesIcon isActive={isActive} />}
+            </NavLink>
+          </li>
+          <li className="w-6">
+            {" "}
+            <NavLink to="/media/bookmarks" className="group">
+              {({ isActive }) => <BookmarkIcon isActive={isActive} />}
+            </NavLink>
+          </li>
+          <li className=" flex items-center lg:mt-auto lg:flex-col">
+            <img src="../assets/image-avatar.png" alt="" className="w-12" />
+            <Form action="/logout" method="post">
+              <button type="submit">Logout</button>
+            </Form>
+          </li>
+        </ul>
+      </nav>
       <Outlet />
     </div>
   );
