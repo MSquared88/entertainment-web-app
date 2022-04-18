@@ -20,7 +20,7 @@ export default function MediaPage() {
   const { mediaListItems } = useLoaderData() as LoaderData;
 
   return (
-    <div className="ml-48 flex h-full min-h-screen  flex-col bg-blue-dark">
+    <div className="mt-[8rem] flex h-full min-h-screen  flex-col bg-blue-dark">
       <div>
         <Form>
           <button className="c" type="submit">

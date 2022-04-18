@@ -1,12 +1,14 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 
 //db
 import { getMediaListItems } from "~/models/media.server";
 
 //components
+import { SearchForm } from "~/components/searchForm";
 import ListOfMediaDisplay from "~/components/listOfMedia";
+
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
 };
@@ -20,23 +22,13 @@ export default function MediaPage() {
   const { mediaListItems } = useLoaderData() as LoaderData;
 
   return (
-    <div className="ml-48 flex h-full min-h-screen  flex-col bg-blue-dark">
-      <div>
-        <Form>
-          <button className="c" type="submit">
-            <img src="/assets/icon-search.svg" alt="" />
-          </button>
-          <input
-            type="text"
-            id="search-input"
-            name="search"
-            placeholder={`search for something`}
-            className="text- mb-4 h-8 w-96 border-b bg-blue-dark text-white placeholder:focus:text-blue-dark"
-          />
-        </Form>
-      </div>
-      <main className="flex h-full bg-blue-dark">
-        <ListOfMediaDisplay mediaListItems={mediaListItems} />
+    <div className="flex h-[88%] flex-col bg-blue-dark">
+      <SearchForm placeHolder={"Search for movies or TV series"} />
+      <main className=" h-full bg-blue-dark">
+        <ListOfMediaDisplay mediaListItems={mediaListItems}>
+          <div>trending</div>
+          <div>recomened</div>
+        </ListOfMediaDisplay>
       </main>
     </div>
   );
