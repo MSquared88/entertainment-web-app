@@ -1,4 +1,4 @@
-export default function MoviesIcon({ isActive }: { isActive: boolean }) {
+export default function MoviesIcon({ isActive }: { isActive?: boolean }) {
   return (
     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
       <path
