@@ -30,43 +30,61 @@ export const action: ActionFunction = async ({ request }) => {
   const password = formData.get("password");
   const redirectTo = formData.get("redirectTo");
   const remember = formData.get("remember");
+  const action = formData.get("action");
 
-  if (!validateEmail(email)) {
-    return json<ActionData>(
-      { errors: { email: "Email is invalid" } },
-      { status: 400 }
-    );
+  switch (action) {
+    case "demo": {
+      console.log(formData);
+      const user = await verifyLogin("demo@demo.com", "password123");
+      if (!user) throw new Error("demo login failed");
+      return createUserSession({
+        request,
+        userId: user.id,
+        remember: remember === "on" ? true : false,
+        redirectTo: typeof redirectTo === "string" ? redirectTo : "/media/all",
+      });
+    }
+    case "login":
+      if (!validateEmail(email)) {
+        return json<ActionData>(
+          { errors: { email: "Email is invalid" } },
+          { status: 400 }
+        );
+      }
+
+      if (typeof password !== "string") {
+        return json<ActionData>(
+          { errors: { password: "Password is required" } },
+          { status: 400 }
+        );
+      }
+
+      if (password.length < 8) {
+        return json<ActionData>(
+          { errors: { password: "Password is too short" } },
+          { status: 400 }
+        );
+      }
+
+      const user = await verifyLogin(email, password);
+
+      if (!user) {
+        return json<ActionData>(
+          { errors: { email: "Invalid email or password" } },
+          { status: 400 }
+        );
+      }
+
+      return createUserSession({
+        request,
+        userId: user.id,
+        remember: remember === "on" ? true : false,
+        redirectTo: typeof redirectTo === "string" ? redirectTo : "/media/all",
+      });
+
+    default:
+      break;
   }
-
-  if (typeof password !== "string") {
-    return json<ActionData>(
-      { errors: { password: "Password is required" } },
-      { status: 400 }
-    );
-  }
-
-  if (password.length < 8) {
-    return json<ActionData>(
-      { errors: { password: "Password is too short" } },
-      { status: 400 }
-    );
-  }
-
-  const user = await verifyLogin(email, password);
-
-  if (!user) {
-    return json<ActionData>(
-      { errors: { email: "Invalid email or password" } },
-      { status: 400 }
-    );
-  }
-
-  return createUserSession({
-    request,
-    userId: user.id,
-    remember: remember === "on" ? true : false,
-    redirectTo: typeof redirectTo === "string" ? redirectTo : "/media/all",
-  });
 };
 
 export const meta: MetaFunction = () => {
@@ -83,7 +101,6 @@ export default function LoginPage() {
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const [isEmailFocus, setIsEmailFocus] = React.useState<boolean>(false);
   const [isPasswordFocus, setIsPasswordFocus] = React.useState<boolean>(false);
-
   React.useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
@@ -93,7 +110,9 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center bg-blue-dark">
+    <div className="flex min-h-full flex-col items-center justify-center bg-blue-dark px-4">
+      <img src="../assets/logo.svg" alt="logo" className="mb-12 h-12 w-12" />
+
       <div className="mx-auto w-full max-w-md rounded-2xl bg-blue-semi p-10 text-white">
         <h1 className="py-4 text-4xl">Login</h1>
         <Form method="post" className="space-y-6 text-white">
@@ -156,17 +175,20 @@ export default function LoginPage() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
+            name="action"
+            value="login"
             className="w-full rounded bg-red  py-2 px-4 text-white hover:bg-white hover:text-black focus:bg-white focus:text-black"
           >
             Log in to your account
           </button>
-          <div className="flex items-center justify-between">
+
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="flex items-center">
               <input
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="border-gray-30 h-4 w-4 rounded default:ring-2 focus:ring-red"
               />
               <label
                 htmlFor="remember"
@@ -188,6 +210,17 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+        </Form>
+        <Form className="mt-4" method="post">
+          {" "}
+          <button
+            type="submit"
+            name="action"
+            value="demo"
+            className="w-full rounded bg-blue-grayish  py-2 px-4 text-white hover:bg-white hover:text-black focus:bg-white focus:text-black"
+          >
+            Demo Login{" "}
+          </button>
         </Form>
       </div>
     </div>

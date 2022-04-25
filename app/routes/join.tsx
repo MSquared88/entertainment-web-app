@@ -94,7 +94,9 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center bg-blue-dark">
+    <div className="flex min-h-full flex-col items-center justify-center bg-blue-dark px-4">
+      <img src="../assets/logo.svg" alt="logo" className="mb-12 h-12 w-12" />
+
       <div className="mx-auto w-full max-w-md rounded-2xl bg-blue-semi p-10 text-white">
         <h1 className="py-4 text-4xl">Register</h1>
 
