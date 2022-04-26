@@ -52,3 +52,22 @@ export default function App() {
     </html>
   );
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div>
+          <h1>something bad happened{error.message}</h1>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
