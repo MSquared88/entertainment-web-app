@@ -30,6 +30,13 @@ export default function MediaPage() {
           <div>recomened</div>
         </ListOfMediaDisplay>
       </main>
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="bg-pink-200 text-red">
+      <h1>Error</h1>
+      <p>{error.message}</p>
+      <p>The stack trace is:</p>
+      <pre>{error.stack}</pre>
     </div>
   );
 }
