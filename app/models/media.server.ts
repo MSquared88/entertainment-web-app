@@ -30,3 +30,29 @@ export async function getTVListItems() {
     },
   });
 }
+export async function searchAll(params: Media["title"]) {
+  //remove spaces and add & for specific search
+  const parsedParams = params.trimEnd().split(" ").join("|");
+
+  return prisma.media.findMany({
+    where: {
+      title: {
+        search: parsedParams,
+      },
+    },
+  });
+}
+export async function searchMovies() {
+  return prisma.media.findMany({
+    where: {
+      category: "TV Series",
+    },
+  });
+}
+export async function searchTVSeries() {
+  return prisma.media.findMany({
+    where: {
+      category: "TV Series",
+    },
+  });
+}
