@@ -2,7 +2,7 @@ import { Form } from "@remix-run/react";
 
 export function SearchForm({ placeHolder }: { placeHolder: string }) {
   return (
-    <div className="mb-[1rem]">
+    <div className="mb-[2%] ">
       <Form>
         <button className="" type="submit">
           <img src="/assets/icon-search.svg" alt="" />
