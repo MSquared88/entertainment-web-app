@@ -30,29 +30,39 @@ export async function getTVListItems() {
     },
   });
 }
-export async function searchAll(params: Media["title"]) {
+export async function searchAll(
+  category: "Movie" | "TV Series" | "all",
+  params: Media["title"]
+) {
   //remove spaces and add & for specific search
   const parsedParams = params.trimEnd().split(" ").join("|");
+  switch (category) {
+    case "all":
+      return prisma.media.findMany({
+        where: {
+          title: {
+            search: parsedParams,
+          },
+        },
+      });
+
+    default:
+      return prisma.media.findMany({
+        where: {
+          category: category,
+          title: {
+            search: parsedParams,
+          },
+        },
+      });
+  }
+}
 
   return prisma.media.findMany({
     where: {
       title: {
         search: parsedParams,
       },
-    },
-  });
-}
-export async function searchMovies() {
-  return prisma.media.findMany({
-    where: {
-      category: "TV Series",
-    },
-  });
-}
-export async function searchTVSeries() {
-  return prisma.media.findMany({
-    where: {
-      category: "TV Series",
     },
   });
 }

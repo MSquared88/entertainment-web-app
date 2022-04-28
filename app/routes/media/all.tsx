@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams.get("search");
   if (searchParams) {
-    const searchReturn = await searchAll(searchParams);
+    const searchReturn = await searchAll("all", searchParams);
 
     return json<SearchData>({ searchReturn });
   }
@@ -32,13 +32,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function MediaPage() {
   const { mediaListItems } = useLoaderData() as LoaderData;
   const { searchReturn } = useLoaderData() as SearchData;
-  console.log(
-    "🚀 ~ file: all.tsx ~ line 39 ~ MediaPage ~ searchReturn",
-    searchReturn
-  );
 
   return (
-    <div className="fixed flex flex-col bg-blue-dark lg:mt-12">
+    <div className=" flex flex-col bg-blue-dark lg:mt-12">
       <SearchForm placeHolder={"Search for movies or TV series"} />
       <div className="bg-blue-dark">
         <div>trending</div>
