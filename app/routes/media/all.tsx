@@ -1,9 +1,16 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 //db
-import { getMediaListItems, searchAll } from "~/models/media.server";
+import { requireUserId } from "~/session.server";
+import {
+  getMediaListItems,
+  searchAll,
+  addBookmark,
+  removeBookmark,
+  getUserBookmarksIds,
+} from "~/models/media.server";
 
 //components
 import { SearchForm } from "~/components/searchForm";
@@ -36,6 +43,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
+  userBookmarksIds: string[];
 };
 type SearchData = {
   searchReturn: Awaited<ReturnType<typeof searchAll>>;
@@ -50,12 +58,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json<SearchData>({ searchReturn });
   }
 
+  const userId = await requireUserId(request);
   const mediaListItems = await getMediaListItems();
-  return json<LoaderData>({ mediaListItems });
+  const userBookmarks = await getUserBookmarksIds(userId);
+  const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
+  return json<LoaderData>({ mediaListItems, userBookmarksIds });
 };
 
 export default function MediaPage() {
-  const { mediaListItems } = useLoaderData() as LoaderData;
+  const { mediaListItems, userBookmarksIds } = useLoaderData() as LoaderData;
+
   const { searchReturn } = useLoaderData() as SearchData;
 
   return (
@@ -67,10 +79,12 @@ export default function MediaPage() {
         {searchReturn ? (
           <ListOfMediaDisplay
             mediaListItems={searchReturn}
+            userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         ) : (
           <ListOfMediaDisplay
             mediaListItems={mediaListItems}
+            userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         )}
       </div>
