@@ -31,6 +31,17 @@ export async function addBookmark(userId: User["id"], mediaId: Media["id"]) {
     },
   });
 }
+export async function removeBookmark(userId: User["id"], mediaId: Media["id"]) {
+  return prisma.userBookmarks.delete({
+    where: {
+      userId_mediaId: {
+        userId,
+        mediaId,
+      },
+    },
+  });
+}
+
 export async function getMediaListItems() {
   return prisma.media.findMany();
 }
