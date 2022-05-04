@@ -87,10 +87,16 @@ export async function searchAll(
   }
 }
 
+export async function searchUserBookmarks(userId: User["id"], params: string) {
   return prisma.media.findMany({
     where: {
+      userIds: {
+        some: {
+          userId: userId,
+        },
+      },
       title: {
-        search: parsedParams,
+        search: params,
       },
     },
   });
