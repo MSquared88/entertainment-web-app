@@ -8,6 +8,31 @@ import { getMediaListItems, searchAll } from "~/models/media.server";
 //components
 import { SearchForm } from "~/components/searchForm";
 import ListOfMediaDisplay from "~/components/listOfMedia";
+interface ActionData {
+  errors: {
+    mediaId?: string;
+  };
+}
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const mediaId = formData.get("mediaId");
+  const action = formData.get("action");
+  const userId = await requireUserId(request);
+  if (typeof mediaId !== "string") {
+    return json<ActionData>(
+      { errors: { mediaId: "incorrect media id" } },
+      { status: 400 }
+    );
+  }
+  switch (action) {
+    case "add-bookmark":
+      addBookmark(userId, mediaId);
+      return null;
+    case "remove-bookmark":
+      removeBookmark(userId, mediaId);
+      return null;
+  }
+};
 
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
