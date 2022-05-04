@@ -23,6 +23,14 @@ export async function getUserBookmarksIds(userId: User["id"]) {
     },
   });
 }
+export async function addBookmark(userId: User["id"], mediaId: Media["id"]) {
+  return prisma.userBookmarks.create({
+    data: {
+      userId,
+      mediaId,
+    },
+  });
+}
 export async function getMediaListItems() {
   return prisma.media.findMany();
 }
