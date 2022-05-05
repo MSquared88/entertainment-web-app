@@ -1,21 +1,81 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { SearchForm } from "~/components/searchForm";
 
 //db
-import { getTVListItems, searchAll } from "~/models/media.server";
+import {
+  addBookmark,
+  getMediaListItems,
+  getUserBookmarksIds,
+  removeBookmark,
+  searchAll,
+} from "~/models/media.server";
 
 //components
 import ListOfMediaDisplay from "~/components/listOfMedia";
+import { requireUserId } from "~/session.server";
+
+//types
+interface ActionData {
+  errors: {
+    mediaId?: string;
+  };
+}
 type LoaderData = {
-  mediaListItems: Awaited<ReturnType<typeof getTVListItems>>;
+  mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
+  userBookmarksIds: string[];
 };
 type SearchData = {
   searchReturn: Awaited<ReturnType<typeof searchAll>>;
 };
 
+//action
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const mediaId = formData.get("mediaId");
+  const action = formData.get("action");
+  const userId = await requireUserId(request);
+  if (typeof mediaId !== "string") {
+    return json<ActionData>(
+      { errors: { mediaId: "incorrect media id" } },
+      { status: 400 }
+    );
+  }
+  switch (action) {
+    case "add-bookmark":
+      try {
+        const bookmark = await addBookmark(userId, mediaId);
+        return bookmark;
+      } catch (error) {
+        return json<ActionData>(
+          {
+            errors: {
+              mediaId: `something went wrong adding a bookmark to ${mediaId}`,
+            },
+          },
+          { status: 400 }
+        );
+      }
+    case "remove-bookmark":
+      try {
+        const bookmark = await removeBookmark(userId, mediaId);
+        return bookmark;
+      } catch (error) {
+        return json<ActionData>(
+          {
+            errors: {
+              mediaId: `something went wrong removing bookmark for ${mediaId}`,
+            },
+          },
+          { status: 400 }
+        );
+      }
+  }
+};
+
+//loader
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams.get("search");
@@ -25,12 +85,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json<SearchData>({ searchReturn });
   }
 
-  const mediaListItems = await getTVListItems();
-  return json<LoaderData>({ mediaListItems });
+  const userId = await requireUserId(request);
+  const mediaListItems = await getMediaListItems("TV Series");
+  const userBookmarks = await getUserBookmarksIds(userId);
+  const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
+  return json<LoaderData>({ mediaListItems, userBookmarksIds });
 };
 
 export default function MediaPage() {
-  const { mediaListItems } = useLoaderData() as LoaderData;
+  const { mediaListItems, userBookmarksIds } = useLoaderData() as LoaderData;
+
   const { searchReturn } = useLoaderData() as SearchData;
 
   return (
@@ -42,10 +106,12 @@ export default function MediaPage() {
         {searchReturn ? (
           <ListOfMediaDisplay
             mediaListItems={searchReturn}
+            userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         ) : (
           <ListOfMediaDisplay
             mediaListItems={mediaListItems}
+            userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         )}
       </div>
