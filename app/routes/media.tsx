@@ -6,9 +6,9 @@ import { Form, NavLink, Outlet } from "@remix-run/react";
 
 export default function MediaPage() {
   return (
-    <div className="flex h-full flex-col items-center justify-center bg-blue-dark  pt-[1rem] lg:flex-row lg:pt-0">
-      <nav className="flex h-[5rem] w-[96%] items-center justify-center bg-blue-dark text-white lg:mt-0 lg:h-[96%] lg:w-full">
-        <ul className="flex h-full w-full list-none items-center justify-between gap-8 rounded-2xl bg-blue-semi lg:h-full lg:w-24 lg:flex-col">
+    <div className=" flex h-full  flex-col items-center justify-center bg-blue-dark lg:mt-0 lg:flex-row">
+      <nav className="fixed top-0 flex  w-full items-center justify-center p-0 text-white md:top-4 md:w-[96%] lg:left-2 lg:mt-0  lg:h-full   lg:w-[4rem]">
+        <ul className="flex w-full list-none items-center justify-between gap-8 bg-blue-semi px-4 py-2 md:rounded-2xl lg:h-[90%]  lg:flex-col lg:px-0 lg:py-4">
           <li className="">
             <img src="../assets/logo.svg" alt="" />
           </li>
@@ -34,7 +34,7 @@ export default function MediaPage() {
               {({ isActive }) => <BookmarkIcon isActive={isActive} />}
             </NavLink>
           </li>
-          <li className=" flex items-center lg:mt-auto lg:flex-col">
+          <li className="flex items-center lg:mt-auto lg:flex-col">
             <img src="../assets/image-avatar.png" alt="" className="w-12" />
             <Form action="/logout" method="post">
               <button type="submit">Logout</button>
@@ -42,7 +42,9 @@ export default function MediaPage() {
           </li>
         </ul>
       </nav>
-      <Outlet />
+      <main className="mt-[5rem] h-full w-full md:mt-[12rem] lg:mt-0 lg:ml-[10rem]">
+        <Outlet />
+      </main>
     </div>
   );
 }
