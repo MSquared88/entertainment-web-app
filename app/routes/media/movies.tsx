@@ -36,7 +36,13 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const mediaId = formData.get("mediaId");
   const action = formData.get("action");
+  const searchParams = formData.get("search");
+  console.log(
+    "🚀 ~ file: movies.tsx ~ line 40 ~ constaction:ActionFunction= ~ searchParams",
+    searchParams
+  );
   const userId = await requireUserId(request);
+
   if (typeof mediaId !== "string") {
     return json<ActionData>(
       { errors: { mediaId: "incorrect media id" } },
