@@ -2,17 +2,6 @@ import type { User, Media } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export async function getUserBookmarks(userId: User["id"]) {
-  return prisma.media.findMany({
-    where: {
-      userIds: {
-        some: {
-          userId: userId,
-        },
-      },
-    },
-  });
-}
 export async function getUserBookmarksIds(userId: User["id"]) {
   return prisma.userBookmarks.findMany({
     where: {
@@ -42,27 +31,18 @@ export async function removeBookmark(userId: User["id"], mediaId: Media["id"]) {
   });
 }
 
-export async function getMediaListItems() {
-  return prisma.media.findMany();
+export async function getMediaListItems(
+  category?: "Movie" | "TV Series"
+): Promise<Media[]> {
+  if (!category) return prisma.media.findMany();
+
+  return prisma.media.findMany({ where: { category } });
 }
-export async function getMovieListItems() {
-  return prisma.media.findMany({
-    where: {
-      category: "Movie",
-    },
-  });
-}
-export async function getTVListItems() {
-  return prisma.media.findMany({
-    where: {
-      category: "TV Series",
-    },
-  });
-}
+
 export async function searchAll(
   category: "Movie" | "TV Series" | "all",
   params: Media["title"]
-) {
+): Promise<Media[]> {
   //remove spaces and add & for specific search
   const parsedParams = params.trimEnd().split(" ").join("|");
   switch (category) {
@@ -87,7 +67,22 @@ export async function searchAll(
   }
 }
 
-export async function searchUserBookmarks(userId: User["id"], params: string) {
+//bookmarks
+export async function getUserBookmarks(userId: User["id"]) {
+  return prisma.media.findMany({
+    where: {
+      userIds: {
+        some: {
+          userId: userId,
+        },
+      },
+    },
+  });
+}
+export async function searchUserBookmarks(
+  userId: User["id"],
+  params: string
+): Promise<Media[]> {
   return prisma.media.findMany({
     where: {
       userIds: {
