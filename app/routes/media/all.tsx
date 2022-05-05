@@ -33,11 +33,33 @@ export const action: ActionFunction = async ({ request }) => {
   }
   switch (action) {
     case "add-bookmark":
-      addBookmark(userId, mediaId);
-      return null;
+      try {
+        const bookmark = await addBookmark(userId, mediaId);
+        return bookmark;
+      } catch (error) {
+        return json<ActionData>(
+          {
+            errors: {
+              mediaId: `something went wrong adding a bookmark to ${mediaId}`,
+            },
+          },
+          { status: 400 }
+        );
+      }
     case "remove-bookmark":
-      removeBookmark(userId, mediaId);
-      return null;
+      try {
+        const bookmark = await removeBookmark(userId, mediaId);
+        return bookmark;
+      } catch (error) {
+        return json<ActionData>(
+          {
+            errors: {
+              mediaId: `something went wrong removing bookmark for ${mediaId}`,
+            },
+          },
+          { status: 400 }
+        );
+      }
   }
 };
 
