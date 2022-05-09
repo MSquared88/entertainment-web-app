@@ -10,7 +10,7 @@ import {
   getMediaListItems,
   getUserBookmarksIds,
   removeBookmark,
-  searchAll,
+  searchMedia,
 } from "~/models/media.server";
 
 //components
@@ -28,7 +28,7 @@ type LoaderData = {
   userBookmarksIds: string[];
 };
 type SearchData = {
-  searchReturn: Awaited<ReturnType<typeof searchAll>>;
+  searchReturn: Awaited<ReturnType<typeof searchMedia>>;
 };
 
 //action
@@ -80,7 +80,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams.get("search");
   if (searchParams) {
-    const searchReturn = await searchAll("TV Series", searchParams);
+    const searchReturn = await searchMedia("TV Series", searchParams);
 
     return json<SearchData>({ searchReturn });
   }

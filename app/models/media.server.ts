@@ -39,7 +39,7 @@ export async function getMediaListItems(
   return prisma.media.findMany({ where: { category } });
 }
 
-export async function searchAll(
+export async function searchMedia(
   category: "Movie" | "TV Series" | "all",
   params: Media["title"]
 ): Promise<Media[]> {

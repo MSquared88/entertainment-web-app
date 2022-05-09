@@ -6,7 +6,7 @@ import { useLoaderData } from "@remix-run/react";
 import { requireUserId } from "~/session.server";
 import {
   getMediaListItems,
-  searchAll,
+  searchMedia,
   addBookmark,
   removeBookmark,
   getUserBookmarksIds,
@@ -78,6 +78,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const searchReturn = await searchAll("all", searchParams);
 
     return json<SearchData>({ searchReturn });
+    const mediaListItems = await searchMedia("all", searchParams);
   }
 
   const userId = await requireUserId(request);
