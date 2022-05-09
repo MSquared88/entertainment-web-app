@@ -17,20 +17,12 @@ import {
 import ListOfMediaDisplay from "~/components/listOfMedia";
 import { requireUserId } from "~/session.server";
 
-//types
+//action types
 interface ActionData {
   errors: {
     mediaId?: string;
   };
 }
-type LoaderData = {
-  mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
-  userBookmarksIds: string[];
-};
-type SearchData = {
-  searchReturn: Awaited<ReturnType<typeof searchMedia>>;
-};
-
 //action
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -81,27 +73,37 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
+//loader types
+type LoaderData = {
+  mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
+  userBookmarksIds: string[];
+  isSearch: Boolean;
+};
+
 //loader
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams.get("search");
-  if (searchParams) {
-    const searchReturn = await searchMedia("Movie", searchParams);
-
-    return json<SearchData>({ searchReturn });
-  }
-
   const userId = await requireUserId(request);
-  const mediaListItems = await getMediaListItems("Movie");
+
   const userBookmarks = await getUserBookmarksIds(userId);
   const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
-  return json<LoaderData>({ mediaListItems, userBookmarksIds });
+
+  //search params
+  let isSearch = false;
+  if (searchParams) {
+    isSearch = true;
+    const mediaListItems = await searchMedia("Movie", searchParams);
+    return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+  }
+
+  const mediaListItems = await getMediaListItems("Movie");
+  return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
 };
 
 export default function MediaPage() {
-  const { mediaListItems, userBookmarksIds } = useLoaderData() as LoaderData;
-
-  const { searchReturn } = useLoaderData() as SearchData;
+  const { mediaListItems, userBookmarksIds, isSearch } =
+    useLoaderData() as LoaderData;
 
   return (
     <div className=" flex flex-col bg-blue-dark lg:mt-12">
@@ -109,9 +111,9 @@ export default function MediaPage() {
       <h1 className="pb-4 text-3xl text-white">Movies</h1>
 
       <div className=" bg-blue-dark">
-        {searchReturn ? (
+        {isSearch ? (
           <ListOfMediaDisplay
-            mediaListItems={searchReturn}
+            mediaListItems={mediaListItems}
             userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         ) : (

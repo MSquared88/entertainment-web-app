@@ -66,32 +66,32 @@ export const action: ActionFunction = async ({ request }) => {
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
   userBookmarksIds: string[];
-};
-type SearchData = {
-  searchReturn: Awaited<ReturnType<typeof searchAll>>;
+  isSearch: Boolean;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams.get("search");
-  if (searchParams) {
-    const searchReturn = await searchAll("all", searchParams);
-
-    return json<SearchData>({ searchReturn });
-    const mediaListItems = await searchMedia("all", searchParams);
-  }
-
   const userId = await requireUserId(request);
-  const mediaListItems = await getMediaListItems();
+
   const userBookmarks = await getUserBookmarksIds(userId);
   const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
-  return json<LoaderData>({ mediaListItems, userBookmarksIds });
+
+  //search params
+  let isSearch = false;
+  if (searchParams) {
+    isSearch = true;
+    const mediaListItems = await searchMedia("all", searchParams);
+    return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+  }
+
+  const mediaListItems = await getMediaListItems();
+  return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
 };
 
 export default function MediaPage() {
-  const { mediaListItems, userBookmarksIds } = useLoaderData() as LoaderData;
-
-  const { searchReturn } = useLoaderData() as SearchData;
+  const { mediaListItems, userBookmarksIds, isSearch } =
+    useLoaderData() as LoaderData;
 
   return (
     <div className=" flex flex-col bg-blue-dark lg:mt-12">
@@ -99,9 +99,9 @@ export default function MediaPage() {
       <div className="bg-blue-dark">
         <div>trending</div>
         <h1 className="pb-4 text-3xl text-white">Recommended for you</h1>
-        {searchReturn ? (
+        {isSearch ? (
           <ListOfMediaDisplay
-            mediaListItems={searchReturn}
+            mediaListItems={mediaListItems}
             userBookmarksIds={userBookmarksIds}
           ></ListOfMediaDisplay>
         ) : (
