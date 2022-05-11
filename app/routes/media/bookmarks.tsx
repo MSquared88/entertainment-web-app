@@ -15,6 +15,7 @@ import {
 import { requireUserId } from "~/session.server";
 
 //components
+import ListOfBookmarksDisplay from "~/components/listOfBookmarks";
 import ListOfMediaDisplay from "~/components/listOfMedia";
 
 interface ActionData {
@@ -68,7 +69,7 @@ export const action: ActionFunction = async ({ request }) => {
 type LoaderData = {
   bookMarkedMedia: Awaited<ReturnType<typeof getUserBookmarks>>;
   userBookmarksIds: string[];
-  isSearch: Boolean;
+  searchParams: string | null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -80,49 +81,48 @@ export const loader: LoaderFunction = async ({ request }) => {
   const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
 
   //search params
-  let isSearch = false;
   if (searchParams) {
-    isSearch = true;
     const bookMarkedMedia = await searchUserBookmarks(userId, searchParams);
-    return json<LoaderData>({ bookMarkedMedia, userBookmarksIds, isSearch });
+    return json<LoaderData>({
+      bookMarkedMedia,
+      userBookmarksIds,
+      searchParams,
+    });
   }
 
   const bookMarkedMedia = await getUserBookmarks(userId);
-  return json<LoaderData>({ bookMarkedMedia, userBookmarksIds, isSearch });
+  return json<LoaderData>({ bookMarkedMedia, userBookmarksIds, searchParams });
 };
 
 export default function MediaPage() {
-  const { bookMarkedMedia, userBookmarksIds, isSearch } =
+  const { bookMarkedMedia, userBookmarksIds, searchParams } =
     useLoaderData() as LoaderData;
 
   return (
     <div className=" flex flex-col bg-blue-dark lg:mt-12">
-      <SearchForm placeHolder={"Search for mookmarked shows"} />
+      <SearchForm placeHolder={"Search for bookmarked shows"} />
 
       <div className=" bg-blue-dark">
-        {isSearch ? (
-          <ListOfMediaDisplay
-            mediaListItems={bookMarkedMedia}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
-        ) : (
-          <div>
-            <h1>Bookmarked Movies</h1>
+        {searchParams ? (
+          <>
+            <h1 className="pb-4 text-3xl text-white">{`Found ${bookMarkedMedia.length} results for '${searchParams}'`}</h1>
             <ListOfMediaDisplay
-              mediaListItems={bookMarkedMedia.filter((media) => {
-                return media.category === "Movie";
-              })}
+              mediaListItems={bookMarkedMedia}
               userBookmarksIds={userBookmarksIds}
             ></ListOfMediaDisplay>
-            <h1>Bookmarked Series</h1>
-
-            <ListOfMediaDisplay
-              mediaListItems={bookMarkedMedia.filter((media) => {
+          </>
+        ) : (
+          <>
+            <ListOfBookmarksDisplay
+              movies={bookMarkedMedia.filter((media) => {
+                return media.category === "Movie";
+              })}
+              series={bookMarkedMedia.filter((media) => {
                 return media.category === "TV Series";
               })}
               userBookmarksIds={userBookmarksIds}
-            ></ListOfMediaDisplay>
-          </div>
+            ></ListOfBookmarksDisplay>
+          </>
         )}
       </div>
     </div>
