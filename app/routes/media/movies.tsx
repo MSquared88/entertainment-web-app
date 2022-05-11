@@ -28,11 +28,6 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const mediaId = formData.get("mediaId");
   const action = formData.get("action");
-  const searchParams = formData.get("search");
-  console.log(
-    "🚀 ~ file: movies.tsx ~ line 40 ~ constaction:ActionFunction= ~ searchParams",
-    searchParams
-  );
   const userId = await requireUserId(request);
 
   if (typeof mediaId !== "string") {
@@ -77,7 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
   userBookmarksIds: string[];
-  isSearch: Boolean;
+  searchParams: string | null;
 };
 
 //loader
@@ -90,38 +85,33 @@ export const loader: LoaderFunction = async ({ request }) => {
   const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
 
   //search params
-  let isSearch = false;
   if (searchParams) {
-    isSearch = true;
     const mediaListItems = await searchMedia("Movie", searchParams);
-    return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+    return json<LoaderData>({ mediaListItems, userBookmarksIds, searchParams });
   }
 
   const mediaListItems = await getMediaListItems("Movie");
-  return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+  return json<LoaderData>({ mediaListItems, userBookmarksIds, searchParams });
 };
 
 export default function MediaPage() {
-  const { mediaListItems, userBookmarksIds, isSearch } =
+  const { mediaListItems, userBookmarksIds, searchParams } =
     useLoaderData() as LoaderData;
 
   return (
     <div className=" flex flex-col bg-blue-dark lg:mt-12">
       <SearchForm placeHolder={"Search movies"} />
-      <h1 className="pb-4 text-3xl text-white">Movies</h1>
+      <h1 className="pb-4 text-3xl text-white">
+        {searchParams
+          ? `Found ${mediaListItems.length} results for '${searchParams}'`
+          : "Movies"}
+      </h1>
 
       <div className=" bg-blue-dark">
-        {isSearch ? (
-          <ListOfMediaDisplay
-            mediaListItems={mediaListItems}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
-        ) : (
-          <ListOfMediaDisplay
-            mediaListItems={mediaListItems}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
-        )}
+        <ListOfMediaDisplay
+          mediaListItems={mediaListItems}
+          userBookmarksIds={userBookmarksIds}
+        ></ListOfMediaDisplay>
       </div>
     </div>
   );

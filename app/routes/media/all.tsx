@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
 type LoaderData = {
   mediaListItems: Awaited<ReturnType<typeof getMediaListItems>>;
   userBookmarksIds: string[];
-  isSearch: Boolean;
+  searchParams: string | null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -78,19 +78,17 @@ export const loader: LoaderFunction = async ({ request }) => {
   const userBookmarksIds = userBookmarks.map((bookmark) => bookmark.mediaId);
 
   //search params
-  let isSearch = false;
   if (searchParams) {
-    isSearch = true;
     const mediaListItems = await searchMedia("all", searchParams);
-    return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+    return json<LoaderData>({ mediaListItems, userBookmarksIds, searchParams });
   }
 
   const mediaListItems = await getMediaListItems();
-  return json<LoaderData>({ mediaListItems, userBookmarksIds, isSearch });
+  return json<LoaderData>({ mediaListItems, userBookmarksIds, searchParams });
 };
 
 export default function MediaPage() {
-  const { mediaListItems, userBookmarksIds, isSearch } =
+  const { mediaListItems, userBookmarksIds, searchParams } =
     useLoaderData() as LoaderData;
 
   return (
@@ -98,18 +96,15 @@ export default function MediaPage() {
       <SearchForm placeHolder={"Search for movies or TV series"} />
       <div className="bg-blue-dark">
         <div>trending</div>
-        <h1 className="pb-4 text-3xl text-white">Recommended for you</h1>
-        {isSearch ? (
-          <ListOfMediaDisplay
-            mediaListItems={mediaListItems}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
-        ) : (
-          <ListOfMediaDisplay
-            mediaListItems={mediaListItems}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
-        )}
+        <h1 className="pb-4 text-3xl text-white">
+          {searchParams
+            ? `Found ${mediaListItems.length} results for '${searchParams}'`
+            : "Recommended for you"}
+        </h1>
+        <ListOfMediaDisplay
+          mediaListItems={mediaListItems}
+          userBookmarksIds={userBookmarksIds}
+        ></ListOfMediaDisplay>
       </div>
     </div>
   );
