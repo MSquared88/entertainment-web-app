@@ -2,35 +2,6 @@ import type { User, Media } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export async function getUserBookmarksIds(userId: User["id"]) {
-  return prisma.userBookmarks.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      mediaId: true,
-    },
-  });
-}
-export async function addBookmark(userId: User["id"], mediaId: Media["id"]) {
-  return prisma.userBookmarks.create({
-    data: {
-      userId,
-      mediaId,
-    },
-  });
-}
-export async function removeBookmark(userId: User["id"], mediaId: Media["id"]) {
-  return prisma.userBookmarks.delete({
-    where: {
-      userId_mediaId: {
-        userId,
-        mediaId,
-      },
-    },
-  });
-}
-
 export async function getMediaListItems(
   category?: "Movie" | "TV Series"
 ): Promise<Media[]> {
@@ -79,6 +50,38 @@ export async function getUserBookmarks(userId: User["id"]) {
     },
   });
 }
+
+export async function getUserBookmarksIds(userId: User["id"]) {
+  return prisma.userBookmarks.findMany({
+    where: {
+      userId: userId,
+    },
+    select: {
+      mediaId: true,
+    },
+  });
+}
+
+export async function addBookmark(userId: User["id"], mediaId: Media["id"]) {
+  return prisma.userBookmarks.create({
+    data: {
+      userId,
+      mediaId,
+    },
+  });
+}
+
+export async function removeBookmark(userId: User["id"], mediaId: Media["id"]) {
+  return prisma.userBookmarks.delete({
+    where: {
+      userId_mediaId: {
+        userId,
+        mediaId,
+      },
+    },
+  });
+}
+
 export async function searchUserBookmarks(
   userId: User["id"],
   params: string
