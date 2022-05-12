@@ -4,6 +4,7 @@ import type { Media } from "@prisma/client";
 import EmptyBookmark from "~/components/icons/emptyBookmark";
 import FullBookmark from "~/components/icons/fullBookmark";
 import MediaInfo from "./mediaInfo";
+import PlayIcon from "./icons/playIcon";
 
 import { motion } from "framer-motion";
 
@@ -19,14 +20,15 @@ export function MediaListItem({
       whileHover={{
         scale: 1.03,
       }}
-      className="mx-4 my-14 max-h-[223px] max-w-[280] text-white"
+      className="group relative mx-4 my-14 max-h-[223px] max-w-[280] text-white"
     >
-      <div className="relative">
+      <div className="">
         <img
           alt={media.title}
           src={media.mediumThumbnail}
           className="max-w-sm rounded-xl border-blue-dark p-1"
         />
+        <PlayIcon />
         {userBookmarksIds?.includes(media.id) ? (
           <FullBookmark media={media} />
         ) : (
