@@ -15,7 +15,7 @@ export default function ListOfMediaDisplay({
     <div className="flex w-full flex-col">
       {children}
       {
-        <ul className="flex h-[78vh] flex-wrap content-start items-center gap-4">
+        <ul className="flex flex-wrap content-start items-center gap-4">
           {mediaListItems.map((media) => (
             <MediaListItem
               userBookmarksIds={userBookmarksIds}
