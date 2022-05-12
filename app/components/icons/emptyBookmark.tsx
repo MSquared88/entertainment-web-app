@@ -14,7 +14,7 @@ export default function EmptyBookmark({ media }: { media: Media }) {
         name="action"
         value="add-bookmark"
         type="submit"
-        className="group absolute top-8 right-8 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:bg-white hover:opacity-100 hover:drop-shadow-xl focus:bg-white"
+        className="group absolute top-8 right-8 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:opacity-100 hover:drop-shadow-xl focus:bg-white group-hover:bg-white"
       >
         <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg">
           <path
