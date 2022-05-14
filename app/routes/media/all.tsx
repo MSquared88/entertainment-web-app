@@ -15,6 +15,8 @@ import {
 //components
 import { SearchForm } from "~/components/searchForm";
 import ListOfMediaDisplay from "~/components/listOfMedia";
+import TrendingMediaDisplay from "~/components/trending/trendingMedia";
+
 interface ActionData {
   errors: {
     mediaId?: string;
@@ -95,16 +97,30 @@ export default function MediaPage() {
     <div className=" flex flex-col bg-blue-dark lg:mt-12">
       <SearchForm placeHolder={"Search for movies or TV series"} />
       <div className="bg-blue-dark">
-        <div>trending</div>
-        <h1 className="pb-4 text-3xl text-white">
-          {searchParams
-            ? `Found ${mediaListItems.length} results for '${searchParams}'`
-            : "Recommended for you"}
-        </h1>
-        <ListOfMediaDisplay
-          mediaListItems={mediaListItems}
-          userBookmarksIds={userBookmarksIds}
-        ></ListOfMediaDisplay>
+        {!searchParams ? (
+          <>
+            <TrendingMediaDisplay
+              mediaListItems={mediaListItems.filter(
+                (media) => media.isTrending
+              )}
+              userBookmarksIds={userBookmarksIds}
+            />
+            <h1 className="pb-4 text-3xl text-white">
+              {searchParams
+                ? `Found ${mediaListItems.length} results for '${searchParams}'`
+                : "Recommended for you"}
+            </h1>
+            <ListOfMediaDisplay
+              mediaListItems={mediaListItems}
+              userBookmarksIds={userBookmarksIds}
+            ></ListOfMediaDisplay>
+          </>
+        ) : (
+          <ListOfMediaDisplay
+            mediaListItems={mediaListItems}
+            userBookmarksIds={userBookmarksIds}
+          ></ListOfMediaDisplay>
+        )}
       </div>
     </div>
   );
