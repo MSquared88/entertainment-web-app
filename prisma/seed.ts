@@ -36,6 +36,7 @@ async function seed() {
         smallThumbnail: media.thumbnail.regular.small,
         mediumThumbnail: media.thumbnail.regular.medium,
         largeThumbnail: media.thumbnail.regular.large,
+        trendingThumbnail: media.thumbnail.trending?.large,
       };
       return prisma.media.create({ data });
     })

@@ -32,6 +32,7 @@ model Media {
   year       String
   rating     String
   category   String
+  trendingThumbnail String?
   isTrending Boolean
 
   smallThumbnail  String
