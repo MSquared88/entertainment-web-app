@@ -6,8 +6,6 @@ import FullBookmark from "~/components/icons/fullBookmark";
 import MediaInfo from "~/components/mediaInfo";
 import PlayIcon from "~/components/icons/playIcon";
 
-import { motion } from "framer-motion";
-
 export function TrendingListItem({
   userBookmarksIds,
   media,
@@ -16,23 +14,22 @@ export function TrendingListItem({
   media: Media;
 }) {
   return (
-    <motion.li
-      whileHover={{
-        scale: 1.03,
-      }}
-      className={`group relative mx-4 my-14 aspect-video max-h-[223px] w-[470px] text-white bg-[url('${media.largeThumbnail}')]`}
-    >
+    <li className="group relative flex aspect-video  w-full  min-w-[470px] text-white">
+      <img
+        alt={media.title}
+        src={media.trendingThumbnail}
+        className="  w-full min-w-[470px]  rounded-xl border-blue-dark p-1"
+      />
       <PlayIcon />
       {userBookmarksIds?.includes(media.id) ? (
         <FullBookmark media={media} />
       ) : (
         <EmptyBookmark media={media} />
       )}
-
-      <div className="flex">
+      <div className="fle-col absolute bottom-5 left-4">
         <MediaInfo media={media} />
+        <h1 className="text-2xl font-bold">{media.title}</h1>
       </div>
-      <h1 className="text-2xl font-bold">{media.title}</h1>
-    </motion.li>
+    </li>
   );
 }

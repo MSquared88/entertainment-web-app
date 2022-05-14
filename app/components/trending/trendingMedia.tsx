@@ -11,10 +11,10 @@ export default function TrendingMediaDisplay({
   children?: React.ReactChild | React.ReactChild[];
 }) {
   return (
-    <div className="flex w-full flex-col overflow-auto ">
+    <div className="flex flex-col">
       <h1 className="pb-4 text-3xl text-white">Trending</h1>
       {
-        <ul className="flex content-center items-center gap-4">
+        <ul className="grid  h-[24rem] auto-cols-[36%] grid-flow-col gap-12 overflow-x-auto">
           {mediaListItems.map((media) => (
             <TrendingListItem
               userBookmarksIds={userBookmarksIds}
