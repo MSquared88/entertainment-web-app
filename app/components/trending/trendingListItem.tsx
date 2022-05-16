@@ -17,8 +17,13 @@ export function TrendingListItem({
     <li className="group relative flex aspect-video  w-full  min-w-[470px] text-white">
       <img
         alt={media.title}
-        src={media.trendingThumbnail}
         className="  w-full min-w-[470px]  rounded-xl border-blue-dark p-1"
+        src={
+          !media.trendingThumbnail
+            ? media.largeThumbnail
+            : media.trendingThumbnail
+        }
+        className="  rounded-xl border-blue-dark p-1"
       />
       <PlayIcon />
       {userBookmarksIds?.includes(media.id) ? (
