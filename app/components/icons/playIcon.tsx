@@ -5,7 +5,7 @@ export default function PlayIcon() {
     <motion.button
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 1.05 }}
-      className="absolute inset-x-32 inset-y-1/2 hidden h-12 w-32 content-between items-center rounded-full bg-white bg-opacity-30 px-2 group-hover:flex"
+      className="absolute inset-x-[36%] inset-y-1/2 hidden h-12 w-32 content-between items-center rounded-full bg-white bg-opacity-30 px-2 group-hover:flex"
     >
       <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
         <path
