@@ -14,16 +14,15 @@ export function TrendingListItem({
   media: Media;
 }) {
   return (
-    <li className="group relative flex aspect-video  w-full  min-w-[470px] text-white">
+    <li className="group relative mx-1 flex aspect-video  w-[600px] text-white">
       <img
         alt={media.title}
-        className="  w-full min-w-[470px]  rounded-xl border-blue-dark p-1"
         src={
           !media.trendingThumbnail
             ? media.largeThumbnail
             : media.trendingThumbnail
         }
-        className="  rounded-xl border-blue-dark p-1"
+        className="rounded-xl border-blue-dark p-1"
       />
       <PlayIcon />
       {userBookmarksIds?.includes(media.id) ? (
@@ -31,7 +30,7 @@ export function TrendingListItem({
       ) : (
         <EmptyBookmark media={media} />
       )}
-      <div className="fle-col absolute bottom-5 left-4">
+      <div className="fleX-col absolute bottom-5 left-4">
         <MediaInfo media={media} />
         <h1 className="text-2xl font-bold">{media.title}</h1>
       </div>
