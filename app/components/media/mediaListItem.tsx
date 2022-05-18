@@ -4,7 +4,7 @@ import type { Media } from "@prisma/client";
 import EmptyBookmark from "~/components/icons/emptyBookmark";
 import FullBookmark from "~/components/icons/fullBookmark";
 import MediaInfo from "./mediaInfo";
-import PlayIcon from "./icons/playIcon";
+import PlayIcon from "../icons/playIcon";
 
 import { motion } from "framer-motion";
 

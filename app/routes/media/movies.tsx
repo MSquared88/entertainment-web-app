@@ -14,7 +14,7 @@ import {
 } from "~/models/media.server";
 
 //components
-import ListOfMediaDisplay from "~/components/listOfMedia";
+import ListOfMediaDisplay from "~/components/media/listOfMedia";
 import { requireUserId } from "~/session.server";
 
 //action types

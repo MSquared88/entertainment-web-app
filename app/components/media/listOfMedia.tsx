@@ -15,15 +15,17 @@ export default function ListOfMediaDisplay({
     <div className="flex w-full flex-col">
       {children}
       {
-        <ul className="flex flex-wrap content-start items-center gap-4">
-          {mediaListItems.map((media) => (
-            <MediaListItem
-              userBookmarksIds={userBookmarksIds}
-              key={media.id}
-              media={media}
-            />
-          ))}
-        </ul>
+        <div className="flex w-full justify-center">
+          <ul className="flex w-full flex-wrap content-start items-center gap-4">
+            {mediaListItems.map((media) => (
+              <MediaListItem
+                userBookmarksIds={userBookmarksIds}
+                key={media.id}
+                media={media}
+              />
+            ))}
+          </ul>
+        </div>
       }
     </div>
   );

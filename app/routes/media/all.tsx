@@ -14,8 +14,8 @@ import {
 
 //components
 import { SearchForm } from "~/components/searchForm";
-import ListOfMediaDisplay from "~/components/listOfMedia";
-import TrendingMediaDisplay from "~/components/trending/trendingMedia";
+import ListOfMediaDisplay from "~/components/media/listOfMedia";
+import TrendingMediaDisplay from "~/components/trending/listOfTrendingMedia";
 
 interface ActionData {
   errors: {

@@ -3,7 +3,7 @@ import type { Media } from "@prisma/client";
 //components
 import EmptyBookmark from "~/components/icons/emptyBookmark";
 import FullBookmark from "~/components/icons/fullBookmark";
-import MediaInfo from "~/components/mediaInfo";
+import MediaInfo from "~/components/media/mediaInfo";
 import PlayIcon from "~/components/icons/playIcon";
 
 export function TrendingListItem({

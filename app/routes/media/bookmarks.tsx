@@ -16,7 +16,7 @@ import { requireUserId } from "~/session.server";
 
 //components
 import ListOfBookmarksDisplay from "~/components/listOfBookmarks";
-import ListOfMediaDisplay from "~/components/listOfMedia";
+import ListOfMediaDisplay from "~/components/media/listOfMedia";
 
 interface ActionData {
   errors: {

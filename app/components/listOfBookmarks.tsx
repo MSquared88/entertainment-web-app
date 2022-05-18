@@ -1,4 +1,4 @@
-import { MediaListItem } from "./mediaListItem";
+import { MediaListItem } from "./media/mediaListItem";
 import type { Media } from "@prisma/client";
 
 export default function ListOfBookmarksDisplay({
