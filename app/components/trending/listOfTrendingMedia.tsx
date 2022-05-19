@@ -12,9 +12,9 @@ export default function TrendingMediaDisplay({
 }) {
   return (
     <div className="flex flex-col">
-      <h1 className="pb-4 text-3xl text-white">Trending</h1>
+      <h1 className="mb-4 text-3xl text-white">Trending</h1>
       {
-        <ul className="grid h-[24rem] auto-cols-[600px]  grid-flow-col overflow-x-auto scrollbar scrollbar-track-blue-semi scrollbar-thumb-blue-grayish">
+        <ul className="grid auto-cols-[500px] grid-flow-col overflow-x-auto py-10 scrollbar scrollbar-track-blue-semi scrollbar-thumb-blue-grayish ">
           {mediaListItems.map((media) => (
             <TrendingListItem
               userBookmarksIds={userBookmarksIds}

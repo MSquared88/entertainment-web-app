@@ -12,21 +12,19 @@ export default function ListOfMediaDisplay({
   children?: React.ReactChild | React.ReactChild[];
 }) {
   return (
-    <div className="flex w-full flex-col">
+    <>
       {children}
       {
-        <div className="flex w-full justify-center">
-          <ul className="flex w-full flex-wrap content-start items-center gap-4">
-            {mediaListItems.map((media) => (
-              <MediaListItem
-                userBookmarksIds={userBookmarksIds}
-                key={media.id}
-                media={media}
-              />
-            ))}
-          </ul>
-        </div>
+        <ul className="grid grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {mediaListItems.map((media) => (
+            <MediaListItem
+              userBookmarksIds={userBookmarksIds}
+              key={media.id}
+              media={media}
+            />
+          ))}
+        </ul>
       }
-    </div>
+    </>
   );
 }

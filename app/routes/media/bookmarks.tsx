@@ -99,7 +99,7 @@ export default function MediaPage() {
     useLoaderData() as LoaderData;
 
   return (
-    <div className=" flex flex-col bg-blue-dark lg:mt-12">
+    <div className=" flex flex-col bg-blue-dark lg:mt-12 lg:ml-[5rem]">
       <SearchForm placeHolder={"Search for bookmarked shows"} />
 
       <div className=" bg-blue-dark">

@@ -14,7 +14,7 @@ export function TrendingListItem({
   media: Media;
 }) {
   return (
-    <li className="group relative mx-1 flex aspect-video  w-[600px] text-white">
+    <li className="group relative mx-1 flex aspect-video  w-[470px] text-white">
       <img
         alt={media.title}
         src={

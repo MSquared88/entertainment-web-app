@@ -2,12 +2,15 @@ import BookmarkIcon from "~/components/icons/bookmarkIcon";
 import MoviesIcon from "~/components/icons/moviesIcon";
 import HomeIcon from "~/components/icons/homeIcon";
 import TvSeriesIcon from "~/components/icons/tvSeriesIcon";
-import { Form, NavLink, Outlet } from "@remix-run/react";
+
+import { NavLink, Outlet } from "@remix-run/react";
+
+import AccountMenu from "~/components/account/accountMenu";
 
 export default function MediaPage() {
   return (
-    <div className=" flex h-full  flex-col items-center justify-center bg-blue-dark lg:mt-0 lg:flex-row">
-      <nav className="fixed top-0 flex  w-full items-center justify-center p-0 text-white md:top-4 md:w-[96%] lg:left-2 lg:mt-0  lg:h-full   lg:w-[4rem]">
+    <div className="flex h-full flex-col items-center justify-center bg-blue-dark lg:mt-0 ">
+      <nav className="fixed top-0 z-50 flex w-full items-center justify-center bg-blue-dark p-0 text-white md:h-24 md:px-4   lg:left-0 lg:mt-0  lg:h-full   lg:w-[5.5rem]">
         <ul className="flex w-full list-none items-center justify-between gap-8 bg-blue-semi px-4 py-2 md:rounded-2xl lg:h-[90%]  lg:flex-col lg:px-0 lg:py-4">
           <li className="">
             <img src="../assets/logo.svg" alt="" />
@@ -35,14 +38,11 @@ export default function MediaPage() {
             </NavLink>
           </li>
           <li className="flex items-center lg:mt-auto lg:flex-col">
-            <img src="../assets/image-avatar.png" alt="" className="w-12" />
-            <Form action="/logout" method="post">
-              <button type="submit">Logout</button>
-            </Form>
+            <AccountMenu />
           </li>
         </ul>
       </nav>
-      <main className="mt-[5rem] h-full w-full md:mt-[12rem] lg:mt-0 lg:ml-[10rem]">
+      <main className="mt-[10rem] h-full w-full p-2 md:mt-[12rem] lg:mt-0">
         <Outlet />
       </main>
     </div>

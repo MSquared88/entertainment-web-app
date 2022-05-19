@@ -15,7 +15,7 @@ export async function searchMedia(
   params: Media["title"]
 ): Promise<Media[]> {
   //remove spaces and add & for specific search
-  const parsedParams = params.trimEnd().split(" ").join("|");
+  const parsedParams = params.trimEnd().split(" ").join("&");
   switch (category) {
     case "all":
       return prisma.media.findMany({

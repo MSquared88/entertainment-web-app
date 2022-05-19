@@ -94,9 +94,9 @@ export default function MediaPage() {
     useLoaderData() as LoaderData;
 
   return (
-    <div className=" flex flex-col bg-blue-dark lg:mt-12">
+    <div className=" flex flex-col bg-blue-dark lg:mt-12 lg:ml-[5rem]">
       <SearchForm placeHolder={"Search for movies or TV series"} />
-      <div className="bg-blue-dark">
+      <div>
         {!searchParams ? (
           <>
             <TrendingMediaDisplay
@@ -105,21 +105,22 @@ export default function MediaPage() {
               )}
               userBookmarksIds={userBookmarksIds}
             />
-            <h1 className="pb-4 text-3xl text-white">
-              {searchParams
-                ? `Found ${mediaListItems.length} results for '${searchParams}'`
-                : "Recommended for you"}
-            </h1>
+            <h1 className="pt-4 text-3xl text-white">Recommended for you</h1>
             <ListOfMediaDisplay
               mediaListItems={mediaListItems}
               userBookmarksIds={userBookmarksIds}
             ></ListOfMediaDisplay>
           </>
         ) : (
-          <ListOfMediaDisplay
-            mediaListItems={mediaListItems}
-            userBookmarksIds={userBookmarksIds}
-          ></ListOfMediaDisplay>
+          <>
+            <h1 className="pb-4 text-3xl text-white">
+              {`Found ${mediaListItems.length} results for '${searchParams}'`}
+            </h1>
+            <ListOfMediaDisplay
+              mediaListItems={mediaListItems}
+              userBookmarksIds={userBookmarksIds}
+            ></ListOfMediaDisplay>
+          </>
         )}
       </div>
     </div>
