@@ -2,17 +2,21 @@ import { Form } from "@remix-run/react";
 
 export function SearchForm({ placeHolder }: { placeHolder: string }) {
   return (
-    <div className="mb-[2%]">
-      <Form>
-        <button className="" type="submit">
-          <img src="/assets/icon-search.svg" alt="" />
+    <div>
+      <Form className="mb-[1%] flex items-center justify-start">
+        <button className="mr-4" type="submit">
+          <img
+            src="/assets/icon-search.svg"
+            alt="search button"
+            className="aspect-square w-[32px]"
+          />
         </button>
         <input
           type="text"
           id="search-input"
           name="search"
           placeholder={placeHolder}
-          className="w-[80%] border-b bg-blue-dark text-white placeholder:focus:text-blue-dark"
+          className="w-[90%] border-b-blue-grayish bg-blue-dark pb-2 text-white focus:border-b-[1px] focus:outline-0 placeholder:focus:text-blue-dark"
         />
       </Form>
     </div>
