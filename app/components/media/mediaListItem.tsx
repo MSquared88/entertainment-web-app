@@ -20,7 +20,7 @@ export function MediaListItem({
       whileHover={{
         scale: 1.03,
       }}
-      className="group mx-4 my-14 max-h-[223px] min-h-[164px] min-w-[154px] max-w-[280px] text-white"
+      className="group mx-4 my-14 max-h-[226px] min-h-[164px] min-w-[154px] max-w-[280px] text-white"
     >
       <div className="relative">
         <img
