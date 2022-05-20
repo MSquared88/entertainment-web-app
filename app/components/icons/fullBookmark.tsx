@@ -14,9 +14,11 @@ export default function FullBookmark({ media }: { media: Media }) {
         name="action"
         value="remove-bookmark"
         type="submit"
-        className="group absolute top-8 right-8 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:opacity-100 hover:drop-shadow-xl focus:bg-white group-hover:bg-white"
+        className="group absolute top-4 right-4 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:opacity-100 hover:drop-shadow-xl focus:bg-white group-hover:bg-white"
       >
         <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg">
+          <title>Filled Bookmark</title>
+          <desc>A icon for a item that is bookmarked.</desc>
           <path
             stroke="#FFF"
             strokeWidth="1.5"
