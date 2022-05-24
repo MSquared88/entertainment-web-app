@@ -10,30 +10,38 @@ import AccountMenu from "~/components/account/accountMenu";
 export default function MediaPage() {
   return (
     <div className="flex h-full flex-col items-center justify-center bg-blue-dark lg:mt-0 ">
-      <nav className="fixed top-0 z-50 flex w-full items-center justify-center bg-blue-dark p-0 text-white md:h-24 md:px-4   lg:left-0 lg:mt-0  lg:h-full   lg:w-[5.5rem]">
-        <ul className="flex w-full list-none items-center justify-between gap-8 bg-blue-semi px-4 py-2 md:rounded-2xl lg:h-[90%]  lg:flex-col lg:px-0 lg:py-4">
+      <nav className="fixed top-0 z-50 flex w-full items-center justify-center bg-blue-dark p-0 text-white md:h-24 md:px-4 lg:left-0 lg:mt-0 lg:h-full lg:w-[5rem]  lg:pr-0 lg:pl-2">
+        <ul className="flex w-full list-none items-center justify-between gap-8 bg-blue-semi px-4 py-2 md:rounded-2xl lg:h-[95%] lg:flex-col lg:px-0 lg:py-4">
           <li className="">
             <img src="../assets/logo.svg" alt="" />
           </li>
           <li className=" w-6">
-            <NavLink to="/media/all" className="group">
+            <NavLink to="/media/all" className="group" aria-label="Home">
               {({ isActive }) => <HomeIcon isActive={isActive} />}
             </NavLink>
           </li>
           <li className="">
-            <NavLink to="/media/movies" className="group">
+            <NavLink to="/media/movies" className="group" aria-label="Movies">
               {({ isActive }) => <MoviesIcon isActive={isActive} />}
             </NavLink>
           </li>
           <li className="w-6">
             {" "}
-            <NavLink to="/media/tv-series" className="group">
+            <NavLink
+              to="/media/tv-series"
+              className="group"
+              aria-label="TV Series "
+            >
               {({ isActive }) => <TvSeriesIcon isActive={isActive} />}
             </NavLink>
           </li>
           <li className="w-6">
             {" "}
-            <NavLink to="/media/bookmarks" className="group">
+            <NavLink
+              to="/media/bookmarks"
+              className="group"
+              aria-label="Bookmarks"
+            >
               {({ isActive }) => <BookmarkIcon isActive={isActive} />}
             </NavLink>
           </li>

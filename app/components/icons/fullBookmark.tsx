@@ -10,11 +10,13 @@ export default function FullBookmark({ media }: { media: Media }) {
       <input type="hidden" name="mediaId" defaultValue={media.id} hidden />
       <motion.button
         whileHover={{ scale: 1.1 }}
+        whileFocus={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         name="action"
         value="remove-bookmark"
         type="submit"
-        className="group absolute top-4 right-4 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:opacity-100 hover:drop-shadow-xl focus:bg-white group-hover:bg-white"
+        aria-label={`remove ${media.title} from bookmarks`}
+        className="group absolute top-4 right-4 rounded-full bg-blue-dark p-3 opacity-75 outline-none outline-hidden hover:opacity-100 hover:drop-shadow-xl focus:bg-white group-hover:bg-white group-focus:bg-white"
       >
         <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg">
           <title>Filled Bookmark</title>

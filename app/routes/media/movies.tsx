@@ -101,17 +101,19 @@ export default function MediaPage() {
   return (
     <div className=" flex flex-col bg-blue-dark lg:mt-12 lg:ml-[5rem]">
       <SearchForm placeHolder={"Search movies"} />
-      <h1 className="pb-4 text-3xl text-white">
-        {searchParams
-          ? `Found ${mediaListItems.length} results for '${searchParams}'`
-          : "Movies"}
-      </h1>
 
       <div className=" bg-blue-dark">
         <ListOfMediaDisplay
           mediaListItems={mediaListItems}
           userBookmarksIds={userBookmarksIds}
-        ></ListOfMediaDisplay>
+        >
+          {" "}
+          <h1 className="pb-4 text-3xl text-white">
+            {searchParams
+              ? `Found ${mediaListItems.length} results for '${searchParams}'`
+              : "Movies"}
+          </h1>
+        </ListOfMediaDisplay>
       </div>
     </div>
   );

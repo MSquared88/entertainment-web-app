@@ -20,13 +20,21 @@ export function MediaListItem({
       whileHover={{
         scale: 1.03,
       }}
+      whileFocus={{
+        scale: 1.03,
+      }}
       className="group mx-4 my-14 max-h-[226px] min-h-[164px] min-w-[154px] max-w-[280px] text-white"
+      aria-label={`${media.category} ${media.title} made in ${media.year} has a rating of ${media.rating}`}
+      tabIndex={0}
     >
-      <div className="relative">
+      <div
+        className="relative"
+        aria-label={`${media.category} ${media.title} made in ${media.year} has a rating of ${media.rating}`}
+      >
         <img
           alt={media.title}
           src={media.mediumThumbnail}
-          className=" max-h-[223px] min-h-[164px] min-w-[154px] max-w-[280] rounded-xl border-blue-dark"
+          className="max-h-[223px] min-h-[164px] min-w-[154px] max-w-[280] rounded-xl border-blue-dark"
         />
         <PlayIcon />
         {userBookmarksIds?.includes(media.id) ? (
