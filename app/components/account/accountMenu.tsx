@@ -1,5 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { motion } from "framer-motion";
 
 import { Form } from "@remix-run/react";
 
@@ -9,14 +10,14 @@ export default function AccountMenu() {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <button type="submit">
+            <motion.button type="submit" whileHover={{ scale: 1.1 }}>
               {" "}
               <img
                 src="../assets/image-avatar.png"
                 alt=""
                 className="h-[40px] w-[40px]"
               />
-            </button>
+            </motion.button>
           </Menu.Button>
         </div>
         <Transition
