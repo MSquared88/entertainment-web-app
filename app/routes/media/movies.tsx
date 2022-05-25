@@ -120,7 +120,7 @@ export default function MediaPage() {
 }
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <div className="bg-pink-200 text-red">
+    <div className="bg-pink-200 text-red lg:ml-[5rem]">
       <h1>Error</h1>
       <p>{error.message}</p>
       <p>The stack trace is:</p>
