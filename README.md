@@ -1,6 +1,6 @@
 # Frontend Mentor - Entertainment web app solution
 
-This is a solution to the [Entertainment web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/entertainment-web-app-J-UhgAW1X). Frontend Mentor challenges help you improve your coding skills by building realistic project.
+This is a solution to the [Entertainment web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/entertainment-web-app-J-UhgAW1X). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
 ## Table of contents
 
@@ -14,8 +14,9 @@ This is a solution to the [Entertainment web app challenge on Frontend Mentor](h
 - [Author](#author)
 - [Project Details](#project-details)
   - [Development](#development)
-  - [Project Details](#project-details)
-  - [Project Details](#project-details)
+  - [Deployment](#deployment)
+  - [Connecting to your database](#connecting-to-your-database)
+  - [Testing](#testing)
 
 **Note: Delete this note and update the table of contents based on what sections you keep.**
 
@@ -35,15 +36,7 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+![](./Entertainment-Web-App.png)
 
 ### Links
 
@@ -62,13 +55,13 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 ### What I learned
 
 I had never worked with Remix or TypeScript before so working with both was a challenge, but I learned
-so much about both and love but of them.
+so much about both and looked forward to using them in the future.
 
 ## Author
 
 - Website - [Matthew Meeves](https://www.matthewmeeves.com/)
 
-- Linkedin - [link](https://www.linkedin.com/in/matthew-meeves/)
+- Linkedin - [Profile](https://www.linkedin.com/in/matthew-meeves/)
 
 # Project Details
 
@@ -92,6 +85,8 @@ The database seed script creates a new user with some data you can use to get st
 
 - Email: `demo@demo.com`
 - Password: `password123`
+
+Use the Demo Login on the login form to automatically login in with these credentials
 
 ## Deployment
 
@@ -148,9 +143,23 @@ Prior to your first deployment, you'll need to do a few things:
 
 Now that everything is set up you can commit and push your changes to your repo. Every commit to your `main` branch will trigger a deployment to your production environment, and every commit to your `dev` branch will trigger a deployment to your staging environment.
 
-### Connecting to your database
+## Connecting to your database
 
-**Note: Fill with postgres stuff.**
+### Locally
+
+Create a local postgres database with either [the cli](https://www.postgresql.org/docs/current/tutorial-createdb.html) or pgAdmin.
+Connect to the database by creating a .env file with a database url and session secret
+
+Example below.
+
+```
+DATABASE_URL="postgresql://postgres:[password]@localhost:5432/[db name]"
+SESSION_SECRET="whatever secret you want"
+```
+
+### Production
+
+Follow the directions for the [postgres setup](https://fly.io/docs/reference/postgres/#about-postgres-on-fly) in the fly docs.
 
 ### Getting Help with Deployment
 
