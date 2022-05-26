@@ -23,6 +23,9 @@ export function MediaListItem({
       whileFocus={{
         scale: 1.03,
       }}
+      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.3 }}
       className="group mx-4 my-14 max-h-[226px] min-h-[164px] min-w-[154px] max-w-[280px] text-white"
       aria-label={`${media.category} ${media.title} made in ${media.year} has a rating of ${media.rating}`}
       tabIndex={0}
