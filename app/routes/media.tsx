@@ -16,12 +16,22 @@ export default function MediaPage() {
             <img src="../assets/logo.svg" alt="" />
           </li>
           <li className=" w-6">
-            <NavLink to="/media/all" className="group" aria-label="Home">
+            <NavLink
+              to="/media/all"
+              className="group"
+              aria-label="Home"
+              prefetch="intent"
+            >
               {({ isActive }) => <HomeIcon isActive={isActive} />}
             </NavLink>
           </li>
           <li className="">
-            <NavLink to="/media/movies" className="group" aria-label="Movies">
+            <NavLink
+              to="/media/movies"
+              className="group"
+              aria-label="Movies"
+              prefetch="intent"
+            >
               {({ isActive }) => <MoviesIcon isActive={isActive} />}
             </NavLink>
           </li>
@@ -31,6 +41,7 @@ export default function MediaPage() {
               to="/media/tv-series"
               className="group"
               aria-label="TV Series "
+              prefetch="intent"
             >
               {({ isActive }) => <TvSeriesIcon isActive={isActive} />}
             </NavLink>
@@ -41,6 +52,7 @@ export default function MediaPage() {
               to="/media/bookmarks"
               className="group"
               aria-label="Bookmarks"
+              prefetch="intent"
             >
               {({ isActive }) => <BookmarkIcon isActive={isActive} />}
             </NavLink>

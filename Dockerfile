@@ -5,7 +5,7 @@ FROM node:16-bullseye-slim as base
 ENV NODE_ENV production
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl sqlite3
+RUN apt-get update && apt-get install -y openssl postgresql
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
@@ -33,9 +33,6 @@ COPY --from=deps /myapp/node_modules /myapp/node_modules
 
 ADD prisma .
 RUN npx prisma generate
-RUN npx prisma db push
-RUN npx prisma db seed
-
 
 ADD . .
 RUN npm run build
