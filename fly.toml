@@ -12,6 +12,10 @@ processes = []
   cmd = "start.sh"
   entrypoint = "sh"
 
+[deploy]
+  db_command = "npx prisma db push"
+  seed_command = "npx prisma db seed"
+
 [[services]]
   internal_port = 8080
   processes = ["app"]
