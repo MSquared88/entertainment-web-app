@@ -13,8 +13,8 @@ processes = []
   entrypoint = "sh"
 
 [deploy]
-  release_command = "npx prisma migrate deploy"
-  
+  release_command = "npx prisma db push"
+
 [[services]]
   internal_port = 8080
   processes = ["app"]
