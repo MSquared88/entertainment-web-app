@@ -12,6 +12,9 @@ processes = []
   cmd = "start.sh"
   entrypoint = "sh"
 
+[deploy]
+  release_command = "npx prisma migrate deploy"
+  
 [[services]]
   internal_port = 8080
   processes = ["app"]
