@@ -3,7 +3,7 @@ import { Form } from "@remix-run/react";
 export function SearchForm({ placeHolder }: { placeHolder: string }) {
   return (
     <div>
-      <Form className="mb-[1%] flex items-center justify-start">
+      <Form className="mb-[1%] flex items-center justify-start" method="get">
         <button className="mr-4" type="submit">
           <img
             src="/assets/icon-search.svg"
