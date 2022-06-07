@@ -1,13 +1,17 @@
-import { Form } from "@remix-run/react";
+import { Form, useSearchParams } from "@remix-run/react";
 
 import type { Media } from "@prisma/client";
 
 import { motion } from "framer-motion";
 
 export default function FullBookmark({ media }: { media: Media }) {
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || undefined;
   return (
     <Form method="post">
       <input type="hidden" name="mediaId" defaultValue={media.id} hidden />
+      <input type="hidden" name="searchParams" value={searchQuery} />
+
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileFocus={{ scale: 1.1 }}

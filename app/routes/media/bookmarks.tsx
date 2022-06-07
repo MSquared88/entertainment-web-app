@@ -1,5 +1,5 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { SearchForm } from "~/components/searchForm";
@@ -27,6 +27,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const mediaId = formData.get("mediaId");
   const action = formData.get("action");
+  const searchParams = formData.get("searchParams");
+
   const userId = await requireUserId(request);
   if (typeof mediaId !== "string") {
     return json<ActionData>(
@@ -37,8 +39,12 @@ export const action: ActionFunction = async ({ request }) => {
   switch (action) {
     case "add-bookmark":
       try {
-        const bookmark = await addBookmark(userId, mediaId);
-        return bookmark;
+        addBookmark(userId, mediaId);
+        return redirect(
+          searchParams
+            ? `/media/bookmarks?search=${searchParams}`
+            : "/media/bookmarks"
+        );
       } catch (error) {
         return json<ActionData>(
           {
@@ -51,8 +57,12 @@ export const action: ActionFunction = async ({ request }) => {
       }
     case "remove-bookmark":
       try {
-        const bookmark = await removeBookmark(userId, mediaId);
-        return bookmark;
+        await removeBookmark(userId, mediaId);
+        return redirect(
+          searchParams
+            ? `/media/bookmarks?search=${searchParams}`
+            : "/media/bookmarks"
+        );
       } catch (error) {
         return json<ActionData>(
           {

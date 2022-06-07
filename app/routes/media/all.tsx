@@ -1,5 +1,5 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 //db
@@ -24,9 +24,11 @@ interface ActionData {
 }
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const mediaId = formData.get("mediaId");
   const action = formData.get("action");
   const userId = await requireUserId(request);
+  const searchParams = formData.get("searchParams");
+
+  const mediaId = formData.get("mediaId");
   if (typeof mediaId !== "string") {
     return json<ActionData>(
       { errors: { mediaId: "incorrect media id" } },
@@ -36,8 +38,10 @@ export const action: ActionFunction = async ({ request }) => {
   switch (action) {
     case "add-bookmark":
       try {
-        const bookmark = await addBookmark(userId, mediaId);
-        return bookmark;
+        await addBookmark(userId, mediaId);
+        return redirect(
+          searchParams ? `/media/all?search=${searchParams}` : "/media/all"
+        );
       } catch (error) {
         return json<ActionData>(
           {
@@ -50,8 +54,10 @@ export const action: ActionFunction = async ({ request }) => {
       }
     case "remove-bookmark":
       try {
-        const bookmark = await removeBookmark(userId, mediaId);
-        return bookmark;
+        await removeBookmark(userId, mediaId);
+        return redirect(
+          searchParams ? `/media/all?search=${searchParams}` : "/media/all"
+        );
       } catch (error) {
         return json<ActionData>(
           {
