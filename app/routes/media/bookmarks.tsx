@@ -17,6 +17,7 @@ import { requireUserId } from "~/session.server";
 //components
 import ListOfBookmarksDisplay from "~/components/listOfBookmarks";
 import ListOfMediaDisplay from "~/components/media/listOfMedia";
+import BackIcon from "~/components/icons/backIcon";
 
 interface ActionData {
   errors: {
@@ -119,7 +120,10 @@ export default function MediaPage() {
             <ListOfMediaDisplay
               mediaListItems={bookMarkedMedia}
               userBookmarksIds={userBookmarksIds}
-            ></ListOfMediaDisplay>
+            >
+              {" "}
+              <BackIcon />
+            </ListOfMediaDisplay>
           </>
         ) : (
           <>

@@ -16,6 +16,7 @@ import {
 //components
 import ListOfMediaDisplay from "~/components/media/listOfMedia";
 import { requireUserId } from "~/session.server";
+import BackIcon from "~/components/icons/backIcon";
 
 //action types
 interface ActionData {
@@ -112,16 +113,16 @@ export default function MediaPage() {
       <SearchForm placeHolder={"Search movies"} />
 
       <div className=" bg-blue-dark">
+        <h1 className="pb-4 text-3xl text-white">
+          {searchParams
+            ? `Found ${mediaListItems.length} results for '${searchParams}'`
+            : "Movies"}
+        </h1>
         <ListOfMediaDisplay
           mediaListItems={mediaListItems}
           userBookmarksIds={userBookmarksIds}
         >
-          {" "}
-          <h1 className="pb-4 text-3xl text-white">
-            {searchParams
-              ? `Found ${mediaListItems.length} results for '${searchParams}'`
-              : "Movies"}
-          </h1>
+          {searchParams ? <BackIcon /> : undefined}
         </ListOfMediaDisplay>
       </div>
     </div>

@@ -16,6 +16,7 @@ import {
 import { SearchForm } from "~/components/searchForm";
 import ListOfMediaDisplay from "~/components/media/listOfMedia";
 import TrendingMediaDisplay from "~/components/trending/listOfTrendingMedia";
+import BackIcon from "~/components/icons/backIcon";
 
 interface ActionData {
   errors: {
@@ -125,7 +126,9 @@ export default function MediaPage() {
             <ListOfMediaDisplay
               mediaListItems={mediaListItems}
               userBookmarksIds={userBookmarksIds}
-            ></ListOfMediaDisplay>
+            >
+              <BackIcon />
+            </ListOfMediaDisplay>
           </>
         )}
       </div>
